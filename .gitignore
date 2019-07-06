@@ -1,4 +1,6 @@
 .DS_Store
 .vscode
 plusoneEnv/*
+__pycache__
 
+key.*
