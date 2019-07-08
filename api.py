@@ -1,10 +1,10 @@
 import requests
-from key import API_KEY, ACCESS_TOKEN
+from key.key import API_KEY, ACCESS_TOKEN
 
 
 BASE_URL = 'https://www.googleapis.com/youtube/v3'
 HEADERS = {
-    'Authorization': f'Bearer {ACCESS_TOKEN}',
+    # 'Authorization': f'Bearer {ACCESS_TOKEN}',
     'Accept': 'application/json'
 }
 
@@ -15,8 +15,9 @@ def get(url, payload):
 
 
 def get_channel():
+    parts = ['snippet','contentDetails', 'statistics']
     payload = {
-        'part': 'snippet%2CcontentDetails%2Cstatistics',
+        'part': ','.join(parts),
         'forUsername': 'CNN',
         'key': f'{API_KEY}'
     }
