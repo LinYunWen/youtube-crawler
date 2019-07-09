@@ -17,25 +17,30 @@ class API():
         return response.json()
 
 
-    def get_channel(self, filter):
-        payload = {
-            'part': ','.join(self.parts),
-            'key': f'{API_KEY}'
-        }
-        payload.update(filter)
+    def search(self, params):
+        payload = { 'part': 'snippet', 'key': f'{API_KEY}' }
+        payload.update(params)
+        res = requests.get(f'{self.base_url}/search', payload)
+        return res.json()
+
+
+    def get_videos(self, params):
+        payload = { 'key': f'{API_KEY}' }
+        payload.update(params)
+        res = requests.get(f'{self.base_url}/videos', payload)
+        return res.json()
+
+
+    def get_channels(self, params):
+        payload = { 'key': f'{API_KEY}' }
+        payload.update(params)
         res = requests.get(f'{self.base_url}/channels', payload)
         return res.json()
 
 
-    def get_channel_id(self, channel):
-        username = channel['username']
-        if len(username) != 0:
-            res = self.get_channel({ 'forUsername': username })
-            items = res['items']
-            return channel['id'] if len(items) == 0 else items[0]['id']
-        return channel['id']
+    def download_captions(videoId, params):
+        payload = { 'key': f'{API_KEY}' }
+        payload.update(params)
+        res = requests.get(f'{self.base_url}/captions/{videoId}', payload)
+        return res.json()
 
-
-    # def get_video_ids_in_channel(self, channel):
-    #     id = channel['id']
-    #     if len(id) == 0:

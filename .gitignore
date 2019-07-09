@@ -5,3 +5,6 @@ __pycache__
 
 key/*
 key.*
+
+data/*
+!data/news_channel.json
