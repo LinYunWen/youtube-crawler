@@ -1,8 +1,8 @@
 from API import API
 from op_data import set_data, get_data
 
-
 resultsPerPage = 5
+channels = get_data('data/news_channel.json')
 
 
 class Utils():
@@ -14,7 +14,7 @@ class Utils():
     def get_channel_id(self, channel):
         username = channel['username']
         if len(username) != 0:
-            res = self.api.get_channel({
+            res = self.api.get_channels({
                 'part': 'id',
                 'forUsername': username
             })

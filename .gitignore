@@ -8,3 +8,5 @@ key.*
 
 data/*
 !data/news_channel.json
+
+result/*
