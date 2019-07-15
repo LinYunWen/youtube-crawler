@@ -65,7 +65,7 @@ class Utils():
             totalResults = res['pageInfo']['totalResults']
             if 'nextPageToken' not in res:
                 break
-            pageToken = res['nextPageToken']
+            nextPageToken = res['nextPageToken']
             i += 1
 
             if i > 0:
@@ -76,7 +76,7 @@ class Utils():
     def get_videos_info(self, ids):
         videos = self.api.get_videos({
             'part': 'snippet,contentDetails,statistics',
-            'id': ids,
+            'id': ','.join(ids),
             'maxResults': resultsPerPage
         })
         def remove_keys(video):
