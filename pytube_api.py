@@ -1,9 +1,12 @@
 
 import os, sys
+import multiprocessing
+from joblib import Parallel, delayed
 from pytube import YouTube
 from op_data import set_data, get_data
 from Utils import Utils
 
+cup_num = multiprocessing.cpu_count()
 utils = Utils()
 channels = get_data('data/news_channel.json')
 
@@ -21,6 +24,13 @@ def send_request(download_path, video_id):
     # yt.streams.filter(file_extension='mp4').order_by('resolution').desc().first().download()
 
 
+def get_video(download_path, video_id, has_existed_videos):
+    if f'{video_id}.mp4' in has_existed_videos:
+        print(f'Has existed: {video_id}')
+        return
+    send_request(download_path, video_id)
+
+
 def get_videos(channel_id = None, video_ids = None):
     if channel_id == None or video_ids == None:
         return
@@ -28,11 +38,7 @@ def get_videos(channel_id = None, video_ids = None):
     download_path = f'result/video/{channel_id}'
     os.makedirs(download_path, exist_ok=True)
     has_existed_videos = os.listdir(f'result/video/{channel_id}')
-    for video_id in video_ids:
-        if f'{video_id}.mp4' in has_existed_videos:
-            print(f'Has existed: {video_id}')
-            continue
-        send_request(download_path, video_id)
+    Parallel(n_jobs=cup_num)(delayed(get_video)(download_path, video_id, has_existed_videos) for video_id in video_ids)
 
 
 if __name__ == "__main__":
