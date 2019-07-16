@@ -1,13 +1,14 @@
 from API import API
 from op_data import set_data, get_data
 
-resultsPerPage = 5
+resultsPerPage = 100
 channels = get_data('data/news_channel.json')
 
 
 class Utils():
     def __init__(self):
         self.api = API()
+        self.arg = []
         self.channels = get_data('data/news_channel.json')
 
 
@@ -68,7 +69,7 @@ class Utils():
             nextPageToken = res['nextPageToken']
             i += 1
 
-            if i > 0:
+            if not arg.unlimited or i > 10:
                 break
         return results
 

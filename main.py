@@ -14,6 +14,7 @@ def parse_argv():
     parser = argparse.ArgumentParser()
     parser.add_argument('--file', '-f', default='', help='the file path of video id')
     parser.add_argument('--no-prepare', '-np', default=False, action='store_true', help='skip the procedure of preparing')
+    parser.add_argument('--unlimited', default=False, action='store_true', help='disable the limit to the number of video')
     return parser.parse_args()
 
 
@@ -88,4 +89,5 @@ def main(arg):
 
 if __name__ == "__main__":
     arg = parse_argv()
+    utils.arg = arg
     main(arg)
